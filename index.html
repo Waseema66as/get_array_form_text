@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Mobile Numbers</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+
+        .result-table {
+            margin-top: 3px;
+        }
+
+        .result-table th,
+        .result-table td {
+            text-align: center;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.3em;
+            border-radius: 0.2em;
+        }
+
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: darkgrey;
+            outline: 1px solid slategrey;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container p-3 rounded"
+        style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;">
+        <h1 class="mb-4">Extract Mobile Numbers</h1>
+        <div class=" row justify-content-center rounded m-1"
+            style="box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;">
+            <div class="col-lg-9  p-1 rounded mx-2">
+                <div class="form-group">
+                    <label for="inputText">Convert text to Array</label>
+                    <textarea id="inputText" class="form-control" placeholder="Paste your text here..."
+                        rows="6"></textarea>
+                </div>
+                <div class="d-flex  justify-content-between">
+                    <button class="btn btn-primary" onclick="convertArray()">Convert</button>
+                    <button class="btn btn-info " onclick="copyArray()">Copy All Numbers</button>
+                </div>
+            </div>
+            <div class=" p-1  rounded overflow-auto  ">
+                <label for="inputText">Output:</label>
+                <div class="  overflow-auto  " style="height: 261px;">
+                    <table id="outputTable" class="table result-table  border">
+                        <thead>
+                            <tr>
+                                <th>Array</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function convertArray() {
+            const inputText = document.getElementById('inputText').value;
+            const outputTable = document.getElementById('outputTable').getElementsByTagName('tbody')[0];
+    
+            // Regular expression to extract text inside double quotes
+            const textRegex = /"([^"]+)"/g;
+            let matches = [];
+            let match;
+            
+            while ((match = textRegex.exec(inputText)) !== null) {
+                matches.push(match[1]); // Extract text inside quotes and remove them
+            }
+    
+            // Clear previous results
+            outputTable.innerHTML = '';
+    
+            // Populate the table with extracted text
+            matches.forEach(text => {
+                const row = outputTable.insertRow();
+                const cell = row.insertCell(0);
+                cell.textContent = text; // Display without quotes
+            });
+    
+            // Store the array in a global variable for copying
+            window.extractedArray = matches;
+    
+            // Log array to console
+            console.log(matches);
+        }
+    
+        function copyArray() {
+            if (!window.extractedArray || window.extractedArray.length === 0) {
+                alert("No data to copy. Please convert first!");
+                return;
+            }
+    
+            // Convert array to JavaScript array format
+            const arrayText = JSON.stringify(window.extractedArray, null, 2);
+    
+            // Copy to clipboard
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = arrayText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+    
+            alert("Array copied to clipboard!");
+        }
+    </script>
+    
+    
+    
+</body>
+
+</html>
