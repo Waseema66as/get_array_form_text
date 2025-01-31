@@ -77,10 +77,7 @@
 
         // Regular expression to extract text inside double quotes
         const textRegex = /"([^"]+)"/g;
-        if (!inputText) {
-          showResult("Please enter some text", "text-danger");
-          return;
-        }
+     
         
         let matches = [];
         let match;
@@ -94,7 +91,7 @@
 
       function copyArray() {
         if (!window.extractedArray || window.extractedArray.length === 0) {
-          showResult("No data to copy. Please convert first!", "text-danger");
+          showResult("No data to copy. Please convert first!", "text-info");
 
           return;
         }
@@ -113,7 +110,8 @@
         showResult("Array copied to clipboard", "text-success");
       }
       const showResult = (massage, color) => {
-        var result = document.getElementById("result");
+          var result = document.getElementById("result");
+          result.classList.add("text-primary");
         result.classList.remove("text-primary");
         result.classList.add(color);
         result.innerHTML = massage;
