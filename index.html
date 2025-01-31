@@ -79,9 +79,14 @@
     
             // Store the array in a global variable for copying
             window.extractedArray = matches;
-    
-            // Log array to console
-            console.log(matches);
+            result.classList.remove('text-primary');
+            result.classList.add('text-success');
+            result.innerHTML = 'Text converted to Array';
+              setTimeout(() => {
+                result.classList.remove('text-success');
+                result.classList.add('text-primary');
+                result.innerHTML = '';
+              }, 3000);
         }
     
         function copyArray() {
