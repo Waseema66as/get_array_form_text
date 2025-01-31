@@ -77,21 +77,25 @@
 
         // Regular expression to extract text inside double quotes
         const textRegex = /"([^"]+)"/g;
-     
-        
+        if (inputText.trim() === "") {
+          showResult("Text converted to Array", "text-success");
+          return;
+        }
         let matches = [];
         let match;
-        
+
         while ((match = textRegex.exec(inputText)) !== null) {
           matches.push(match[1]); // Extract text inside quotes and remove them
         }
         showResult("Text converted to Array", "text-success");
 
+        // Store the array in a global variable for copying
+        window.extractedArray = matches;
       }
 
       function copyArray() {
         if (!window.extractedArray || window.extractedArray.length === 0) {
-          showResult("No data to copy. Please convert first!", "text-info");
+          showResult("No data to copy. Please convert first!", "text-danger");
 
           return;
         }
@@ -110,8 +114,7 @@
         showResult("Array copied to clipboard", "text-success");
       }
       const showResult = (massage, color) => {
-          var result = document.getElementById("result");
-          result.classList.add("text-primary");
+        var result = document.getElementById("result");
         result.classList.remove("text-primary");
         result.classList.add(color);
         result.innerHTML = massage;
