@@ -48,25 +48,14 @@
                     <textarea id="inputText" class="form-control" placeholder="Paste your text here..."
                         rows="6"></textarea>
                 </div>
+          
                 <div class="d-flex  justify-content-between">
                     <button class="btn btn-primary" onclick="convertArray()">Convert</button>
+                    <p class="m-2 result-table text-primary" id="result"></p>
                     <button class="btn btn-info " onclick="copyArray()">copy Array</button>
                 </div>
             </div>
-            <div class=" p-1  rounded overflow-auto  ">
-                <label for="inputText">Output:</label>
-                <div class="  overflow-auto  " style="height: 261px;">
-                    <table id="outputTable" class="table result-table  border">
-                        <thead>
-                            <tr>
-                                <th>Array</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -76,7 +65,6 @@
     <script>
         function convertArray() {
             const inputText = document.getElementById('inputText').value;
-            const outputTable = document.getElementById('outputTable').getElementsByTagName('tbody')[0];
     
             // Regular expression to extract text inside double quotes
             const textRegex = /"([^"]+)"/g;
@@ -87,15 +75,7 @@
                 matches.push(match[1]); // Extract text inside quotes and remove them
             }
     
-            // Clear previous results
-            outputTable.innerHTML = '';
-    
-            // Populate the table with extracted text
-            matches.forEach(text => {
-                const row = outputTable.insertRow();
-                const cell = row.insertCell(0);
-                cell.textContent = text; // Display without quotes
-            });
+        
     
             // Store the array in a global variable for copying
             window.extractedArray = matches;
@@ -120,8 +100,16 @@
             tempTextarea.select();
             document.execCommand('copy');
             document.body.removeChild(tempTextarea);
-    
-            alert("Array copied to clipboard!");
+            var  result = document.getElementById('result');
+            result.classList.remove('text-primary');
+            result.classList.add('text-success');
+            result.innerHTML = 'Copied to clipboard';
+              setTimeout(() => {
+                result.classList.remove('text-success');
+                result.classList.add('text-primary');
+                result.innerHTML = '';
+              }, 3000);
+          
         }
     </script>
     
